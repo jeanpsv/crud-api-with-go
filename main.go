@@ -38,6 +38,17 @@ func deleteMovie(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func getMovie(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	params := mux.Vars(r)
+	for _, item := range movies {
+		if item.ID == params["id"] {
+			json.NewEncoder(w).Encode(item)
+			return
+		}
+	}
+}
+
 func main() {
 	r := mux.NewRouter()
 
@@ -46,6 +57,7 @@ func main() {
 
 	r.HandleFunc("/movies", getMovies).Methods("GET")
 	r.HandleFunc("/movies/{id}", deleteMovie).Methods("DELETE")
+	r.HandleFunc("/movies/{id}", getMovie).Methods("GET")
 
 	fmt.Printf("Starting server at port 8080\n")
 	http.ListenAndServe(":8080", r)
