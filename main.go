@@ -36,6 +36,7 @@ func deleteMovie(w http.ResponseWriter, r *http.Request) {
 			break
 		}
 	}
+	w.WriteHeader(http.StatusNoContent)
 }
 
 func getMovie(w http.ResponseWriter, r *http.Request) {
