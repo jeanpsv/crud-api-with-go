@@ -50,6 +50,14 @@ func getMovie(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
+func createMovie(w http.ResponseWriter, r *http.Request) {
+	w.Header().Set("Content-Type", "application/json")
+	var movie Movie
+	_ = json.NewDecoder(r.Body).Decode(&movie)
+	movies = append(movies, movie)
+	w.WriteHeader(http.StatusCreated)
+}
+
 func main() {
 	r := mux.NewRouter()
 
@@ -59,6 +67,7 @@ func main() {
 	r.HandleFunc("/movies", getMovies).Methods("GET")
 	r.HandleFunc("/movies/{id}", deleteMovie).Methods("DELETE")
 	r.HandleFunc("/movies/{id}", getMovie).Methods("GET")
+	r.HandleFunc("/movies", createMovie).Methods("POST")
 
 	fmt.Printf("Starting server at port 8080\n")
 	http.ListenAndServe(":8080", r)
