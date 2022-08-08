@@ -15,3 +15,5 @@ updateMovie(updateMovie) --> database
 deleteMovie(deleteMovie) --> database
 database[(database)]
 ```
+
+Run application with `go run main.go`
